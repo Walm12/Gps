@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UBICACIÓN WILDLIFE</title>
+  <!-- Hoja de estilos -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Firebase JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- Tu código JS (defer para que cargue tras el DOM) -->
+  <script src="scripts.js" defer></script>
+
+  <!-- Google Maps: llama a initMap cuando esté listo -->
+  <script
+    async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAObCuPmN-c2WyGRolcC4ZoDMAnLimv1Y0&callback=initMap">
+  </script>
+</head>
+<body>
+  <h1>UBICACIÓN EN TIEMPO REAL</h1>
+  <div id="map"></div>
+</body>
+</html>
