@@ -4,9 +4,9 @@
 const firebaseConfig = {
   apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
   authDomain: "datosdeubicacion.firebaseapp.com",
-  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com/",
+  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.appspot.com",
+  storageBucket: "datosdeubicacion.firebasestorage.app",
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
@@ -27,7 +27,7 @@ let infoWindowOpened = false;
 // —————————————————————————
 // 3) Inicialización del mapa (callback de Google Maps)
 // —————————————————————————
-async function initMap() {
+function initMap() {
   // 3.1) Inicializa mapa y polilínea
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 0, lng: 0 },
@@ -98,8 +98,16 @@ async function initMap() {
 function updateInfoWindow(data) {
   const html = `
     <div>
-      <p><strong>Altitud:</strong> ${data.altitud ?? 'N/A'} m</p>
-      <p><strong>Velocidad:</strong> ${data.velocidad ?? 'N/A'} km/h</p>
-    </div>`;
-  infoWindow.setContent(html);
+        <p><strong>Latitud:</strong> ${data.latitud}</p>
+        <p><strong>Longitud:</strong> ${data.longitud}</p>
+        <p><strong>Altitud:</strong> ${data.altitud ?? 'N/A'} m</p>
+        <p><strong>Velocidad:</strong> ${data.velocidad ?? 'N/A'} km/h</p>
+      </div>`;
+    infoWindow.setContent(html);
+    
+pathCoordinates.push(pos);
+    polyline.setPath(pathCoordinates);
+    map.setCenter(pos);
+    map.setZoom(16);
+
 }
