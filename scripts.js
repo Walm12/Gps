@@ -4,7 +4,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
   authDomain: "datosdeubicacion.firebaseapp.com",
-  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
+  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com/",
   projectId: "datosdeubicacion",
   storageBucket: "datosdeubicacion.firebasestorage.app",
   messagingSenderId: "1095247152012",
