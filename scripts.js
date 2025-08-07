@@ -23,12 +23,6 @@ let polyline;
 let infoWindow;
 let infoWindowOpened = false;
 
-// Icono personalizado (imagen de ave)
-const birdIcon = {
-  url: 'https://firebasestorage.googleapis.com/v0/b/ubicacion-pruebas.appspot.com/o/SOMBRA%20AVE.png?alt=media',
-  scaledSize: new google.maps.Size(50, 50),
-  anchor: new google.maps.Point(25, 25)
-};
 
 // —————————————————————————
 // 3) Inicialización del mapa (callback de Google Maps)
@@ -39,17 +33,24 @@ function initMap() {
     center: { lat: 0, lng: 0 },
     zoom: 4
   });
-  polyline = new google.maps.Polyline({ path: [], map: map });
+  polyline = new google.maps.Polyline({ path: [], map});
 
   // 2) Crea el InfoWindow (antes estabas usando infoWindow sin inicializarlo)
   infoWindow = new google.maps.InfoWindow();
+
+// Icono personalizado (imagen de ave)
+const birdIcon = {
+  url: 'https://firebasestorage.googleapis.com/v0/b/ubicacion-pruebas.appspot.com/o/SOMBRA%20AVE.png?alt=media',
+  scaledSize: new google.maps.Size(50, 50),
+  anchor: new google.maps.Point(25, 25)
+};
 
   // 3) Escucha datos de Firebase
   database.ref('/').on('value', snap => {
     const data = snap.val();
     console.log('Datos de Firebase:', data);
 
-    if (data && data.latitud != null && data.longitud != null) {
+    if (!data?.latitud || !data?.longitud) return; {
       const pos = { lat: data.latitud, lng: data.longitud };
 
       // 4) Crea o mueve el marcador
@@ -92,10 +93,10 @@ function initMap() {
 // 4) Actualiza contenido del InfoWindow
 // —————————————————————————
 function updateInfoWindow(data) {
-  const content = `
+  const html = `
     <div>
       <p><strong>Altitud:</strong> ${data.altitud ?? 'N/A'} m</p>
       <p><strong>Velocidad:</strong> ${data.velocidad ?? 'N/A'} km/h</p>
     </div>`;
-  infoWindow.setContent(content);
+  infoWindow.setContent(html);
 }
