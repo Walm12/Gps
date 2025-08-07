@@ -26,7 +26,7 @@ let infoWindowOpened = false;
 // —————————————————————————
 // 3) Inicialización del mapa (callback de Google Maps)
 // —————————————————————————
-function initMap() {
+async function initMap() {
   // 3.1) Inicializa mapa y polilínea
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 0, lng: 0 },
