@@ -2,7 +2,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyBqh1FQgDO6oxuFMF7feaBQdJxT0mzNmsQ",
   authDomain: "ubicacion-pruebas.firebaseapp.com",
-  databaseURL: "https://ubicacion-pruebas-default-rtdb.firebaseio.com",
+  databaseURL: "https://ubicacion-pruebas-default-rtdb.firebaseio.com/",
   projectId: "ubicacion-pruebas",
   storageBucket: "ubicacion-pruebas.appspot.com",
   messagingSenderId: "989875849360",
