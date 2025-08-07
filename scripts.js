@@ -61,3 +61,41 @@ function initMap() {
           title: 'Ubicación GPS'
         });
         marker.addListener('click', () => {
+          infoWindowOpened = true;
+          updateInfoWindow(data);
+          infoWindow.open(map, marker);
+        });
+      } else {
+        marker.setPosition(pos);
+        if (infoWindowOpened) {
+          updateInfoWindow(data);
+        }
+      }
+
+      // 5) Añade al recorrido y actualiza la polilínea
+      pathCoordinates.push(pos);
+      polyline.setPath(pathCoordinates);
+
+      // 6) Centra y hace zoom
+      map.setCenter(pos);
+      map.setZoom(16);
+    }
+  });
+
+  // 7) Listener para cerrar el InfoWindow
+  google.maps.event.addListener(infoWindow, 'closeclick', () => {
+    infoWindowOpened = false;
+  });
+}
+
+// —————————————————————————
+// 4) Actualiza contenido del InfoWindow
+// —————————————————————————
+function updateInfoWindow(data) {
+  const content = `
+    <div>
+      <p><strong>Altitud:</strong> ${data.altitud ?? 'N/A'} m</p>
+      <p><strong>Velocidad:</strong> ${data.velocidad ?? 'N/A'} km/h</p>
+    </div>`;
+  infoWindow.setContent(content);
+}
