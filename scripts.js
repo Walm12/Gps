@@ -2,13 +2,14 @@
 // 1) Configuración de Firebase
 // —————————————————————————
 const firebaseConfig = {
-  apiKey: "AIzaSyBqh1FQgDO6oxuFMF7feaBQdJxT0mzNmsQ",
-  authDomain: "ubicacion-pruebas.firebaseapp.com",
-  databaseURL: "https://console.firebase.google.com/u/1/project/datosdeubicacion/database/datosdeubicacion-default-rtdb/data/~2F",
-  projectId: "ubicacion-pruebas",
-  storageBucket: "ubicacion-pruebas.appspot.com",
-  messagingSenderId: "989875849360",
-  appId: "1:989875849360:web:c09628b92a336dcf947015"
+  apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
+  authDomain: "datosdeubicacion.firebaseapp.com",
+  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
+  projectId: "datosdeubicacion",
+  storageBucket: "datosdeubicacion.firebasestorage.app",
+  messagingSenderId: "1095247152012",
+  appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
+  measurementId: "G-L7T609J8YS"
 };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
