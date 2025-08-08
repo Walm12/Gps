@@ -1,10 +1,10 @@
-// --- Firebase config (bucket corregido) ---
+// --- Firebase config (tu bucket corregido) ---
 const firebaseConfig = {
   apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
   authDomain: "datosdeubicacion.firebaseapp.com",
   databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.appspot.com", // <- CORREGIDO
+  storageBucket: "datosdeubicacion.appspot.com",
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
@@ -12,24 +12,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// --- helpers UI ---
 const $status = document.getElementById('status');
 const setStatus = (t) => { if ($status) $status.textContent = t; };
 
-// --- variables mapa ---
 let map, marker, polyline, infoWindow;
 let pathCoordinates = [];
 let infoWindowOpened = false;
 
-// (Opcional) si luego quieres icono personalizado, pega aquí su URL pública:
-// const BIRD_ICON_URL = "https://firebasestorage.googleapis.com/v0/b/....?alt=media&token=...";
-
-// --- Google Maps callback ---
 function initMap() {
-  setStatus("Inicializando mapa…");
+  console.log("[Maps] initMap llamado");
+  console.log("[Firebase] databaseURL:", firebase.app().options.databaseURL);
 
+  setStatus("Inicializando mapa…");
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -1.5, lng: -78.0 }, // centro inicial aprox. Ecuador
+    center: { lat: -1.5, lng: -78.0 },
     zoom: 6,
     mapTypeId: "hybrid"
   });
@@ -42,15 +38,20 @@ function initMap() {
 
   infoWindow = new google.maps.InfoWindow();
 
-  // Lee la RAÍZ "/": (tu captura muestra latitud/longitud ahí mismo)
-  database.ref("/").on("value", (snap) => {
+  // Lee la RAÍZ "/"
+  const ref = database.ref("/");
+  ref.on("value", (snap) => {
     const data = snap.val();
     console.log("[RTDB] / =", data);
 
-    const lat = Number(data?.latitud);
-    const lng = Number(data?.longitud);
+    if (!data) { setStatus("No hay datos en '/'."); return; }
+
+    const lat = Number(data.latitud);
+    const lng = Number(data.longitud);
+
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-      setStatus("Lat/Lng inválidos o ausentes en '/'.");
+      console.warn("[RTDB] Lat/Lng inválidos:", data.latitud, data.longitud);
+      setStatus(`Lat/Lng inválidos: lat=${data.latitud} lng=${data.longitud}`);
       return;
     }
 
@@ -60,15 +61,7 @@ function initMap() {
     if (marker) {
       marker.setPosition(pos);
     } else {
-      const opts = { position: pos, map };
-      // if (BIRD_ICON_URL) {
-      //   opts.icon = {
-      //     url: BIRD_ICON_URL,
-      //     scaledSize: new google.maps.Size(50, 50),
-      //     anchor: new google.maps.Point(25, 25)
-      //   };
-      // }
-      marker = new google.maps.Marker(opts);
+      marker = new google.maps.Marker({ position: pos, map });
       marker.addListener("click", () => {
         infoWindowOpened = true;
         updateInfoWindow(data);
@@ -80,10 +73,11 @@ function initMap() {
 
     pathCoordinates.push(pos);
     polyline.setPath(pathCoordinates);
+
     map.setCenter(pos);
     map.setZoom(18);
   }, (err) => {
-    console.error("Error RTDB:", err);
+    console.error("[RTDB] Error leyendo / :", err);
     setStatus(`Error RTDB: ${err?.code || err}`);
   });
 
@@ -93,7 +87,6 @@ function initMap() {
 }
 window.initMap = initMap;
 
-// --- InfoWindow ---
 function updateInfoWindow(data) {
   const html = `
     <div>
