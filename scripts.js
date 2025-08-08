@@ -49,7 +49,7 @@ const ICON_ROT_DEG = -90;   // prueba -90 o 90 según tu PNG
 const ICON_ANCHOR = 'bottom'; // 'center' o 'bottom'
 
 // Crea el contenido para AdvancedMarkerElement
-function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR, offsetX = 6, offsetY = -8 } = {}) {
+function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR, offsetX = 10, offsetY = -8 } = {}) {
   // 1) Wrapper: define el anclaje (centro o bottom-center) con porcentajes
   const wrap = document.createElement('div');
   wrap.style.display = 'inline-block';
