@@ -121,7 +121,7 @@ function initMap() {
         marker.position = pos;
       } else {
         const opts = { map, position: pos };
-        if (birdIconUrl)  opts.content = createBirdIconElement(birdIconUrl, { offsetX: 6, offsetY: -8 });
+        if (birdIconUrl)  opts.content = createBirdIconElement(birdIconUrl, { offsetX: 10, offsetY: -8 });
         marker = new google.maps.marker.AdvancedMarkerElement(opts);
 
         // Evento de clic (nuevo y legacy)
