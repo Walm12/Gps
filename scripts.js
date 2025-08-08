@@ -43,6 +43,8 @@ function loadBirdIconUrl() {
       console.warn('No pude obtener la URL del icono desde Storage:', err);
     });
 }
+const ICON_SIZE = 50;      // px visibles
+const ICON_ROT_DEG = -90;  // gira -90° si tu ave “apunta a la derecha”
 
 function createBirdIconElement(url, { size = 50, deg = -90, flipX = false, flipY = false } = {}) {
   const img = document.createElement('img');
