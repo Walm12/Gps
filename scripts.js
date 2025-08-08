@@ -44,7 +44,7 @@ function loadBirdIconUrl() {
     });
 }
 
-function createBirdIconElement(url, { size = 50, deg = 0, flipX = false, flipY = false } = {}) {
+function createBirdIconElement(url, { size = 50, deg = -90, flipX = false, flipY = false } = {}) {
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Tracker';
