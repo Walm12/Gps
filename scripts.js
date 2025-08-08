@@ -1,113 +1,106 @@
-// —————————————————————————
-// 1) Configuración de Firebase
-// —————————————————————————
+// --- Firebase config (bucket corregido) ---
 const firebaseConfig = {
   apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
   authDomain: "datosdeubicacion.firebaseapp.com",
   databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.appspot.com",
+  storageBucket: "datosdeubicacion.appspot.com", // <- CORREGIDO
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
 };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const storage  = firebase.storage();
-// —————————————————————————
-// 2) Variables globales para el mapa
-// —————————————————————————
-let map;
-let marker;
+
+// --- helpers UI ---
+const $status = document.getElementById('status');
+const setStatus = (t) => { if ($status) $status.textContent = t; };
+
+// --- variables mapa ---
+let map, marker, polyline, infoWindow;
 let pathCoordinates = [];
-let polyline;
-let infoWindow;
 let infoWindowOpened = false;
 
-// —————————————————————————
-// 3) Inicialización del mapa (callback de Google Maps)
-// —————————————————————————
-function initMap() {
-  // 3.1) Inicializa mapa y polilínea
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 0, lng: 0 },
-    zoom: 4
-  });
-  polyline = new google.maps.Polyline({ path: [], map: map });
+// (Opcional) si luego quieres icono personalizado, pega aquí su URL pública:
+// const BIRD_ICON_URL = "https://firebasestorage.googleapis.com/v0/b/....?alt=media&token=...";
 
-  // 3.2) Crea el InfoWindow
+// --- Google Maps callback ---
+function initMap() {
+  setStatus("Inicializando mapa…");
+
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -1.5, lng: -78.0 }, // centro inicial aprox. Ecuador
+    zoom: 6,
+    mapTypeId: "hybrid"
+  });
+
+  polyline = new google.maps.Polyline({
+    path: pathCoordinates, geodesic: true, strokeColor: "#00ff00",
+    strokeOpacity: 1.0, strokeWeight: 2
+  });
+  polyline.setMap(map);
+
   infoWindow = new google.maps.InfoWindow();
 
-  // 3.3) Define el icono ahora que google.maps ya existe
-  const birdIcon = {
-    url: 'https://firebasestorage.googleapis.com/v0/b/datosdeubicacion.firebasestorage.app/o/public%2Fbirdimage.png?alt=media&token=19b65c24-40d7-481b-8433-303b4eec1c0d',
-    scaledSize: new google.maps.Size(50, 50),
-    anchor:     new google.maps.Point(25, 25)
-  };
-
-  // 3.4) Escucha datos de Firebase
-  database.ref('/').on('value', snap => {
+  // Lee la RAÍZ "/": (tu captura muestra latitud/longitud ahí mismo)
+  database.ref("/").on("value", (snap) => {
     const data = snap.val();
-    console.log('Datos de Firebase:', data);
+    console.log("[RTDB] / =", data);
 
-    // Si no hay latitud o longitud, salimos
-    if (data == null || data.latitud == null || data.longitud == null) {
+    const lat = Number(data?.latitud);
+    const lng = Number(data?.longitud);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      setStatus("Lat/Lng inválidos o ausentes en '/'.");
       return;
     }
 
-    const pos = { latitud: data.latitud, longitud: data.longitud };
+    setStatus(`Última actualización: lat=${lat.toFixed(6)} lng=${lng.toFixed(6)}`);
+    const pos = { lat, lng };
 
-    // 3.5) Crea o mueve el marcador
-    if (!marker) {
-      marker = new google.maps.Marker({
-        position: pos,
-        map: map,
-        icon: birdIcon,
-        title: 'Ubicación GPS'
-      });
-      marker.addListener('click', () => {
+    if (marker) {
+      marker.setPosition(pos);
+    } else {
+      const opts = { position: pos, map };
+      // if (BIRD_ICON_URL) {
+      //   opts.icon = {
+      //     url: BIRD_ICON_URL,
+      //     scaledSize: new google.maps.Size(50, 50),
+      //     anchor: new google.maps.Point(25, 25)
+      //   };
+      // }
+      marker = new google.maps.Marker(opts);
+      marker.addListener("click", () => {
         infoWindowOpened = true;
         updateInfoWindow(data);
         infoWindow.open(map, marker);
       });
-    } else {
-      marker.setPosition(pos);
-      if (infoWindowOpened) {
-        updateInfoWindow(data);
-      }
     }
 
-    // 3.6) Añade al recorrido y actualiza la polilínea
+    if (infoWindowOpened) updateInfoWindow(data);
+
     pathCoordinates.push(pos);
     polyline.setPath(pathCoordinates);
-
-    // 3.7) Centra y hace zoom
     map.setCenter(pos);
-    map.setZoom(16);
+    map.setZoom(18);
+  }, (err) => {
+    console.error("Error RTDB:", err);
+    setStatus(`Error RTDB: ${err?.code || err}`);
   });
 
-  // 3.8) Listener para cerrar el InfoWindow
-  google.maps.event.addListener(infoWindow, 'closeclick', () => {
+  google.maps.event.addListener(infoWindow, "closeclick", () => {
     infoWindowOpened = false;
   });
 }
+window.initMap = initMap;
 
-// —————————————————————————
-// 4) Actualiza contenido del InfoWindow
-// —————————————————————————
+// --- InfoWindow ---
 function updateInfoWindow(data) {
   const html = `
     <div>
-        <p><strong>Latitud:</strong> ${data.latitud}</p>
-        <p><strong>Longitud:</strong> ${data.longitud}</p>
-        <p><strong>Altitud:</strong> ${data.altitud ?? 'N/A'} m</p>
-        <p><strong>Velocidad:</strong> ${data.velocidad ?? 'N/A'} km/h</p>
-      </div>`;
-    infoWindow.setContent(html);
-    
-pathCoordinates.push(pos);
-    polyline.setPath(pathCoordinates);
-    map.setCenter(pos);
-    map.setZoom(16);
-
+      <p><strong>Temperatura:</strong> ${data?.Temperatura ?? "N/A"} °C</p>
+      <p><strong>Altitud:</strong> ${data?.altitud ?? "N/A"} m</p>
+      <p><strong>Velocidad:</strong> ${data?.velocidad ?? "N/A"} km/h</p>
+      <p><strong>Satélites:</strong> ${data?.satelite ?? "N/A"}</p>
+    </div>`;
+  infoWindow.setContent(html);
 }
