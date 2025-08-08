@@ -56,9 +56,7 @@ function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anch
   const wrap = document.createElement('div');
   wrap.style.display = 'inline-block';
   wrap.style.willChange = 'transform';
-  wrap.style.transform = (anchor === 'bottom')
-    ? 'translate(-50%, -100%)'  // ancla en la base (como un pin)
-    : 'translate(-50%, -50%)';  // ancla en el centro (ideal para iconos “planos”)
+  const baseAnchor = (anchor === 'bottom') ? 'translate(-50%, -100%)' : 'translate(-50%, -50%)';
   wrap.style.transform = `${baseAnchor} translate(${offsetX}px, ${offsetY}px)`;
   wrap.style.display = 'inline-block';
   wrap.style.willChange = 'transform';
