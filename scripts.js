@@ -46,10 +46,10 @@ function loadBirdIconUrl() {
 // Ajustes globales
 const ICON_SIZE = 50;       // px visibles
 const ICON_ROT_DEG = -90;   // prueba -90 o 90 según tu PNG
-const ICON_ANCHOR = 'center'; // 'center' o 'bottom'
+const ICON_ANCHOR = 'bottom'; // 'center' o 'bottom'
 
 // Crea el contenido para AdvancedMarkerElement
-function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR } = {}) {
+function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR, offsetX = 6, offsetY = -8 } = {}) {
   // 1) Wrapper: define el anclaje (centro o bottom-center) con porcentajes
   const wrap = document.createElement('div');
   wrap.style.display = 'inline-block';
@@ -57,7 +57,8 @@ function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anch
   wrap.style.transform = (anchor === 'bottom')
     ? 'translate(-50%, -100%)'  // ancla en la base (como un pin)
     : 'translate(-50%, -50%)';  // ancla en el centro (ideal para iconos “planos”)
-
+  wrap.style.transform = `${baseAnchor} translate(${offsetX}px, ${offsetY}px)`;
+  
   // 2) Imagen: rotación/origen centrado
   const img = document.createElement('img');
   img.src = url;
@@ -119,7 +120,7 @@ function initMap() {
         marker.position = pos;
       } else {
         const opts = { map, position: pos };
-        if (birdIconUrl) opts.content = createBirdIconElement(birdIconUrl);
+        if (birdIconUrl)  opts.content = createBirdIconElement(birdIconUrl, { offsetX: 6, offsetY: -8 });
         marker = new google.maps.marker.AdvancedMarkerElement(opts);
 
         // Evento de clic (nuevo y legacy)
