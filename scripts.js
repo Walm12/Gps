@@ -43,21 +43,34 @@ function loadBirdIconUrl() {
       console.warn('No pude obtener la URL del icono desde Storage:', err);
     });
 }
-const ICON_SIZE = 50;      // px visibles
-const ICON_ROT_DEG = -90;  // gira -90° si tu ave “apunta a la derecha”
+// Ajustes globales
+const ICON_SIZE = 50;       // px visibles
+const ICON_ROT_DEG = -90;   // prueba -90 o 90 según tu PNG
+const ICON_ANCHOR = 'center'; // 'center' o 'bottom'
 
-function createBirdIconElement(url, { size = 50, deg = -90, flipX = false, flipY = false } = {}) {
+// Crea el contenido para AdvancedMarkerElement
+function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR } = {}) {
+  // 1) Wrapper: define el anclaje (centro o bottom-center) con porcentajes
+  const wrap = document.createElement('div');
+  wrap.style.display = 'inline-block';
+  wrap.style.willChange = 'transform';
+  wrap.style.transform = (anchor === 'bottom')
+    ? 'translate(-50%, -100%)'  // ancla en la base (como un pin)
+    : 'translate(-50%, -50%)';  // ancla en el centro (ideal para iconos “planos”)
+
+  // 2) Imagen: rotación/origen centrado
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Tracker';
-  img.style.width = size + 'px';
-  img.style.height = size + 'px';
-  // ancla al centro + rotación y flips
-  const sx = flipX ? -1 : 1;
-  const sy = flipY ? -1 : 1;
-  img.style.transform = `translate(${-size/2}px, ${-size/2}px) scale(${sx},${sy}) rotate(${deg}deg)`;
+  img.width = size;
+  img.height = size;
+  img.style.display = 'block';
+  img.style.transformOrigin = 'center center';
+  img.style.transform = `rotate(${deg}deg)`; // SOLO rotación aquí
   img.draggable = false;
-  return img;
+
+  wrap.appendChild(img);
+  return wrap;
 }
 
 
