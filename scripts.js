@@ -40,7 +40,7 @@ function initMap() {
 
   // 3.3) Define el icono ahora que google.maps ya existe
   const birdIcon = {
-    url: 'https://firebasestorage.googleapis.com/v0/b/ubicacion-pruebas.appspot.com/o/SOMBRA%20AVE.png?alt=media',
+    url: 'gs://datosdeubicacion.firebasestorage.app/bird image.png',
     scaledSize: new google.maps.Size(50, 50),
     anchor:     new google.maps.Point(25, 25)
   };
