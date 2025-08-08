@@ -10,18 +10,19 @@
   <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
-  <!-- Tu script (define window.initMap) -->
+  <!-- Tu script: define window.initMap ANTES de cargar Maps -->
   <script src="scripts.js"></script>
 
-  <!-- Google Maps: llama a initMap cuando cargue -->
+  <!-- Google Maps: con librería 'marker' y callback -->
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAObCuPmN-c2WyGRolcC4ZoDMAnLimv1Y0&loading=async&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAObCuPmN-c2WyGRolcC4ZoDMAnLimv1Y0&loading=async&libraries=marker&callback=initMap">
   </script>
 </head>
 <body>
   <h1>UBICACIÓN EN TIEMPO REAL</h1>
-  <div id="status" class="status">Esperando datos…</div>
+  <div id="status" class="status">Cargando…</div>
   <div id="map"></div>
 </body>
 </html>
