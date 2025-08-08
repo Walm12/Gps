@@ -4,7 +4,7 @@ const firebaseConfig = {
   authDomain: "datosdeubicacion.firebaseapp.com",
   databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.firebasestorage.app",
+  storageBucket: "datosdeubicacion.firebasestorage.app", // <-- tu bucket real
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
@@ -23,19 +23,18 @@ let map, marker, polyline, infoWindow;
 let pathCoordinates = [];
 let infoWindowOpened = false;
 
+// Map ID (vector) para Advanced Markers
 const MAP_ID = 'ed456c9ff425e26cdc394dea';
 
-// Ruta del icono en tu bucket (ajústala si está en otro lugar):
-const BIRD_STORAGE_PATH = "gs://datosdeubicacion.firebasestorage.app/public/birdimage.png";
+// Ruta del icono en tu bucket (tal cual tu consola)
+const BIRD_STORAGE_GS = 'gs://datosdeubicacion.firebasestorage.app/public/birdimage.png';
 let birdIconUrl = null;
 
 function loadBirdIconUrl() {
-  // Usa el bucket configurado en firebaseConfig (evita refFromURL)
-  const ref = firebase.storage().ref('gs://datosdeubicacion.firebasestorage.app/public/birdimage.png');
-  return ref.getDownloadURL()
+  const iconRef = storage.refFromURL(BIRD_STORAGE_GS);
+  return iconRef.getDownloadURL()
     .then((url) => {
-      console.log('[Storage] download URL = https://firebasestorage.googleapis.com/v0/b/datosdeubicacion.firebasestorage.app/o/public%2Fbirdimage.png?alt=media&token=19b65c24-40d7-481b-8433-303b4eec1c0d', url); // debería ser googleapis con ?alt=media&token=...
-      birdIconUrl = url;
+      birdIconUrl = url; // p.ej. https://firebasestorage.googleapis.com/v0/b/...
       if (marker && !marker.content) {
         marker.content = createBirdIconElement(birdIconUrl);
       }
@@ -51,26 +50,28 @@ function createBirdIconElement(url) {
   img.alt = 'Tracker';
   img.style.width = '50px';
   img.style.height = '50px';
-  // centra el icono (anclaje visual)
+  // ancla visual al centro del ícono
   img.style.transform = 'translate(-25px, -25px)';
   img.draggable = false;
   return img;
 }
 
+// --- Google Maps callback ---
 function initMap() {
   setStatus("Inicializando mapa…");
 
-  // Map ID requerido para AdvancedMarkerElement
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -1.5, lng: -78.0 },
     zoom: 6,
-    mapId: MAP_ID,          // 👈 CLAVE: Map ID vector
-    // mapTypeId: "hybrid",  // (opcional) con mapId, Google ignora estilos aquí
+    mapId: MAP_ID
   });
 
   polyline = new google.maps.Polyline({
-    path: pathCoordinates, geodesic: true,
-    strokeColor: "#00ff00", strokeOpacity: 1.0, strokeWeight: 2
+    path: pathCoordinates,
+    geodesic: true,
+    strokeColor: "#00ff00",
+    strokeOpacity: 1.0,
+    strokeWeight: 2
   });
   polyline.setMap(map);
 
@@ -78,11 +79,10 @@ function initMap() {
 
   // Carga icono (no bloquea)
   loadBirdIconUrl().finally(() => {
-    // Suscríbete a RTDB
+    // Suscribirse a RTDB (tu captura muestra las claves en "/")
     const ref = database.ref("/");
     ref.on("value", (snap) => {
       const data = snap.val();
-      console.log("[RTDB] / =", data);
 
       if (!data) { setStatus("No hay datos en '/'."); return; }
 
@@ -96,7 +96,7 @@ function initMap() {
       setStatus(`Última actualización: lat=${lat.toFixed(6)} lng=${lng.toFixed(6)}`);
       const pos = { lat, lng };
 
-      // Crea/actualiza AdvancedMarkerElement
+      // Crear/actualizar AdvancedMarkerElement
       if (marker) {
         marker.position = pos;
       } else {
@@ -104,7 +104,7 @@ function initMap() {
         if (birdIconUrl) opts.content = createBirdIconElement(birdIconUrl);
         marker = new google.maps.marker.AdvancedMarkerElement(opts);
 
-        // soporta click (gmp-click es el evento nuevo)
+        // Evento de clic (nuevo y legacy)
         marker.addListener("gmp-click", () => {
           infoWindowOpened = true;
           updateInfoWindow(data);
@@ -122,6 +122,7 @@ function initMap() {
         infoWindow.open({ map, anchor: marker });
       }
 
+      // Traza ruta y centra
       pathCoordinates.push(pos);
       polyline.setPath(pathCoordinates);
       map.setCenter(pos);
