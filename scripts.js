@@ -26,7 +26,7 @@ let infoWindow;
 let infoWindowOpened = false;
 
 // gs:// del ícono en tu bucket
-const BIRD_STORAGE_GS_URL = "gs://datosdeubicacion.firebasestorage.app/birdimage.png";
+const BIRD_STORAGE_GS_URL = "gs://datosdeubicacion.firebasestorage.app/public/birdimage.png";
 let birdIconUrl = null; // se llenará con getDownloadURL()
 
 // Carga el URL de descarga del ícono desde Firebase Storage
