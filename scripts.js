@@ -47,11 +47,11 @@ function loadBirdIconUrl() {
 const ICON_SIZE = 50;
 const ICON_ROT_DEG = -90;     // prueba 90 si sigue girado
 const ICON_ANCHOR = 'bottom'; // 'bottom' o 'center'
-const ICON_OFFSET_X = 6;      // + derecha / - izquierda
+const ICON_OFFSET_X = 10;      // + derecha / - izquierda
 const ICON_OFFSET_Y = -8;     // + abajo / - arriba
 
 // Crea el contenido para AdvancedMarkerElement
-function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR, offsetX = 10, offsetY = -8 } = {}) {
+function createBirdIconElement(url, { size = ICON_SIZE, deg = ICON_ROT_DEG, anchor = ICON_ANCHOR, offsetX = 6, offsetY = -8 } = {}) {
   // 1) Wrapper: define el anclaje (centro o bottom-center) con porcentajes
   const wrap = document.createElement('div');
   wrap.style.display = 'inline-block';
