@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-
+const storage  = firebase.storage();
 // —————————————————————————
 // 2) Variables globales para el mapa
 // —————————————————————————
