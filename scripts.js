@@ -23,7 +23,7 @@ let map, marker, polyline, infoWindow;
 let pathCoordinates = [];
 let infoWindowOpened = false;
 
-
+const MAP_ID = 'ed456c9ff425e26cdc394dea';
 
 // Ruta del icono en tu bucket (ajústala si está en otro lugar):
 const BIRD_STORAGE_PATH = "public/birdimage.png";
@@ -54,7 +54,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -1.5, lng: -78.0 },
     zoom: 6,
-    mapId: 'ed456c9ff425e26cdc394dea',          // 👈 CLAVE: Map ID vector
+    mapId: MAP_ID,          // 👈 CLAVE: Map ID vector
     // mapTypeId: "hybrid",  // (opcional) con mapId, Google ignora estilos aquí
   });
 
