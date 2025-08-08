@@ -31,7 +31,7 @@ let birdIconUrl = null;
 
 function loadBirdIconUrl() {
   // Usa el bucket configurado en firebaseConfig (evita refFromURL)
-  const ref = firebase.storage().ref('public/birdimage.png');
+  const ref = firebase.storage().ref('gs://datosdeubicacion.firebasestorage.app/public/birdimage.png');
   return ref.getDownloadURL()
     .then((url) => {
       console.log('https://firebasestorage.googleapis.com/v0/b/datosdeubicacion.firebasestorage.app/o/public%2Fbirdimage.png?alt=media&token=19b65c24-40d7-481b-8433-303b4eec1c0d', url); // debería ser googleapis con ?alt=media&token=...
