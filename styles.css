@@ -20,3 +20,9 @@ h1 {
   height: 60vh;
   margin: 0 auto;
 }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; text-align:center; }
+h1 { margin: 10px; }
+.status { margin: 6px 0 10px; color:#555; font-size:14px; }
+#map { width: 80%; max-width: 900px; height: 60vh; margin: 0 auto; }
+
