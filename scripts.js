@@ -26,7 +26,7 @@ let infoWindowOpened = false;
 const MAP_ID = 'ed456c9ff425e26cdc394dea';
 
 // Ruta del icono en tu bucket (ajústala si está en otro lugar):
-const BIRD_STORAGE_PATH = "public/birdimage.png";
+const BIRD_STORAGE_PATH = "gs://datosdeubicacion.firebasestorage.app/public/birdimage.png";
 let birdIconUrl = null;
 
 function loadBirdIconUrl() {
@@ -34,7 +34,7 @@ function loadBirdIconUrl() {
   const ref = firebase.storage().ref('gs://datosdeubicacion.firebasestorage.app/public/birdimage.png');
   return ref.getDownloadURL()
     .then((url) => {
-      console.log('https://firebasestorage.googleapis.com/v0/b/datosdeubicacion.firebasestorage.app/o/public%2Fbirdimage.png?alt=media&token=19b65c24-40d7-481b-8433-303b4eec1c0d', url); // debería ser googleapis con ?alt=media&token=...
+      console.log('[Storage] download URL = https://firebasestorage.googleapis.com/v0/b/datosdeubicacion.firebasestorage.app/o/public%2Fbirdimage.png?alt=media&token=19b65c24-40d7-481b-8433-303b4eec1c0d', url); // debería ser googleapis con ?alt=media&token=...
       birdIconUrl = url;
       if (marker && !marker.content) {
         marker.content = createBirdIconElement(birdIconUrl);
