@@ -54,7 +54,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -1.5, lng: -78.0 },
     zoom: 6,
-    mapId: "ed456c9ff425e26cdc394dea",          // 👈 CLAVE: Map ID vector
+    mapId: 'ed456c9ff425e26cdc394dea',          // 👈 CLAVE: Map ID vector
     // mapTypeId: "hybrid",  // (opcional) con mapId, Google ignora estilos aquí
   });
 
