@@ -2,7 +2,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyDQLpuTmW5d_3lUqumAPW0RqomCxYQPkrE",
   authDomain: "datosdeubicacion.firebaseapp.com",
-  databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
+  databaseURL: "https://console.firebase.google.com/u/1/project/datosdeubicacion/database/datosdeubicacion-default-rtdb/data/~2F",
   projectId: "datosdeubicacion",
   storageBucket: "datosdeubicacion.appspot.com", // <- CORREGIDO
   messagingSenderId: "1095247152012",
