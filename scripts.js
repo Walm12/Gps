@@ -55,7 +55,7 @@ function initMap() {
       return;
     }
 
-    const pos = { lat: data.latitud, lng: data.longitud };
+    const pos = { latitud: data.latitud, longitud: data.longitud };
 
     // 3.5) Crea o mueve el marcador
     if (!marker) {
