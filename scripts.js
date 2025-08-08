@@ -44,17 +44,20 @@ function loadBirdIconUrl() {
     });
 }
 
-function createBirdIconElement(url) {
+function createBirdIconElement(url, { size = 50, deg = 0, flipX = false, flipY = false } = {}) {
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Tracker';
-  img.style.width = '50px';
-  img.style.height = '50px';
-  // ancla visual al centro del ícono
-  img.style.transform = 'translate(-25px, -25px)';
+  img.style.width = size + 'px';
+  img.style.height = size + 'px';
+  // ancla al centro + rotación y flips
+  const sx = flipX ? -1 : 1;
+  const sy = flipY ? -1 : 1;
+  img.style.transform = `translate(${-size/2}px, ${-size/2}px) scale(${sx},${sy}) rotate(${deg}deg)`;
   img.draggable = false;
   return img;
 }
+
 
 // --- Google Maps callback ---
 function initMap() {
