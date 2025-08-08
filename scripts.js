@@ -4,7 +4,7 @@ const firebaseConfig = {
   authDomain: "datosdeubicacion.firebaseapp.com",
   databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.appspot.com",
+  storageBucket: "datosdeubicacion.firebasestorage.app",
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
