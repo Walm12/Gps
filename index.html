@@ -4,25 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UBICACIÓN WILDLIFE</title>
-  <!-- Hoja de estilos -->
+
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Firebase JS SDK -->
+  <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
-  <!-- Google Maps: llama a initMap cuando esté listo -->
+  <!-- Tu script (define window.initMap) -->
+  <script src="scripts.js"></script>
+
+  <!-- Google Maps: llama a initMap cuando cargue -->
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAObCuPmN-c2WyGRolcC4ZoDMAnLimv1Y0&loading=async&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=TU_GOOGLE_MAPS_API_KEY&callback=initMap">
   </script>
-
-  <!-- Tu código JS (defer para que cargue tras el DOM) -->
-  <script src="scripts.js" defer></script>
-
 </head>
 <body>
   <h1>UBICACIÓN EN TIEMPO REAL</h1>
+  <div id="status" class="status">Esperando datos…</div>
   <div id="map"></div>
 </body>
 </html>
