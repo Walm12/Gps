@@ -160,12 +160,28 @@ function initMap() {
 window.initMap = initMap;
 
 function updateInfoWindow(data) {
+  const lat = Number(data?.latitud);
+  const lng = Number(data?.longitud);
+  const alt = data?.altitud ?? "N/A";
+
+  let latStr = "N/A";
+  let lngStr = "N/A";
+
+  if (Number.isFinite(lat)) {
+    const dir = lat >= 0 ? "N" : "S";
+    latStr = `${Math.abs(lat).toFixed(6)}° ${dir}`;
+  }
+
+  if (Number.isFinite(lng)) {
+    const dir = lng >= 0 ? "E" : "W";
+    lngStr = `${Math.abs(lng).toFixed(6)}° ${dir}`;
+  }
+
   const html = `
     <div>
-      <p><strong>Temperatura:</strong> ${data?.Temperatura ?? "N/A"} °C</p>
-      <p><strong>Altitud:</strong> ${data?.altitud ?? "N/A"} m</p>
-      <p><strong>Velocidad:</strong> ${data?.velocidad ?? "N/A"} km/h</p>
-      <p><strong>Satélites:</strong> ${data?.satelite ?? "N/A"}</p>
+      <p><strong>Latitud:</strong> ${latStr}</p>
+      <p><strong>Longitud:</strong> ${lngStr}</p>
+      <p><strong>Altitud:</strong> ${alt} m</p>
     </div>`;
   infoWindow.setContent(html);
 }
