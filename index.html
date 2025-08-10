@@ -3,26 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UBICACIÓN WILDLIFE</title>
+  <title>Rastreador GPS en Tiempo Real</title>
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDK (compat) -->
+  <!-- Hoja de estilos -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
-  <!-- Tu script: define window.initMap ANTES de cargar Maps -->
-  <script src="scripts.js"></script>
+  <!-- Tu script JS -->
+  <script src="scripts.js" defer></script>
 
-  <!-- Google Maps: con librería 'marker' y callback -->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAObCuPmN-c2WyGRolcC4ZoDMAnLimv1Y0&loading=async&libraries=marker&callback=initMap">
+  <!-- Google Maps API -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&libraries=marker&callback=initMap"
+    async defer>
   </script>
 </head>
 <body>
-  <h1>UBICACIÓN EN TIEMPO REAL</h1>
-  <div id="status" class="status">Cargando…</div>
-  <div id="map"></div>
+  <!-- Encabezado -->
+  <header>
+    <h1>Rastreador GPS en Tiempo Real</h1>
+  </header>
+
+  <!-- Contenedor del mapa -->
+  <main>
+    <div id="map"></div>
+    <div id="status" class="status-box">Cargando datos...</div>
+  </main>
+
+  <!-- Pie de página -->
+  <footer>
+    <p>Proyecto de rastreo - <span id="year"></span></p>
+  </footer>
+
+  <script>
+    // Año automático en el footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
