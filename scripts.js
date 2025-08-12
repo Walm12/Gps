@@ -4,7 +4,7 @@ const firebaseConfig = {
   authDomain: "datosdeubicacion.firebaseapp.com",
   databaseURL: "https://datosdeubicacion-default-rtdb.firebaseio.com",
   projectId: "datosdeubicacion",
-  storageBucket: "datosdeubicacion.firebasestorage.app", // <-- tu bucket real
+  storageBucket: "datosdeubicacion.firebasestorage.app", 
   messagingSenderId: "1095247152012",
   appId: "1:1095247152012:web:5d8aa44fbecdbe1f95cca9",
   measurementId: "G-L7T609J8YS"
@@ -26,7 +26,7 @@ let infoWindowOpened = false;
 // Map ID (vector) para Advanced Markers
 const MAP_ID = 'ed456c9ff425e26cdc394dea';
 
-// Ruta del icono en tu bucket (tal cual tu consola)
+// Ruta del icono en tu bucket 
 const BIRD_STORAGE_GS = 'gs://datosdeubicacion.firebasestorage.app/public/birdimage.png';
 let birdIconUrl = null;
 
@@ -34,7 +34,7 @@ function loadBirdIconUrl() {
   const iconRef = storage.refFromURL(BIRD_STORAGE_GS);
   return iconRef.getDownloadURL()
     .then((url) => {
-      birdIconUrl = url; // p.ej. https://firebasestorage.googleapis.com/v0/b/...
+      birdIconUrl = url; 
       if (marker && !marker.content) {
         marker.content = createBirdIconElement(birdIconUrl);
       }
@@ -44,9 +44,8 @@ function loadBirdIconUrl() {
     });
 }
 // Ajustes globales
-// Ajustes globales
 const ICON_SIZE = 50;       // px visibles
-const ICON_ROT_DEG = -90;   // prueba -90 o 90 según tu PNG
+const ICON_ROT_DEG = -90;   // rota -90 o 90 
 const ICON_ANCHOR = 'center'; // 'center' o 'bottom'
 
 // Crea el contenido para AdvancedMarkerElement
@@ -99,7 +98,7 @@ function initMap() {
 
   // Carga icono (no bloquea)
   loadBirdIconUrl().finally(() => {
-    // Suscribirse a RTDB (tu captura muestra las claves en "/")
+    // Suscribirse a RTDB 
     const ref = database.ref("/");
     ref.on("value", (snap) => {
       const data = snap.val();
